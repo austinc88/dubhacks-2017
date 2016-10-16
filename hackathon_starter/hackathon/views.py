@@ -219,6 +219,7 @@ def image(request):
 
 @csrf_exempt
 def ingredient(request):
-    response = {}
-
-    return response
+    ingredient = request.GET.get('ingredient')
+    print(ingredient)
+    calorieCount = Ingredients.objects.filter(ingredient = ingredient)
+    return HttpResponse(calorieCount)
