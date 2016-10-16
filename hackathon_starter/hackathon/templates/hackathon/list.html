@@ -16,6 +16,12 @@
             var cals = $('#cals').children();
             var total = $('#total').children();
 
+            var total_val = 0
+            for (var j = 0; j < amountList.length; j++) {
+                total_val += parseInt($(cals[j]).text())
+            }
+            $(total[0]).text(total_val.toString())
+
             for (var i = 0; i < caloriesList.length; i++) {
                 $(caloriesList[i]).click(function(event) {
                     console.log($(event.target).text());
@@ -28,7 +34,7 @@
                     var output_val = $(caloriesList[index]).text() * input_val;
                     $(cals[index]).text(output_val)
 
-                    var total_val = 0
+                    total_val = 0
                     for (var j = 0; j < amountList.length; j++) {
                         total_val += parseInt($(cals[j]).text())
                     }
@@ -109,12 +115,14 @@
                     </ul>
                 {% endif %}
             </div>
+            {% if calories %}
             <div style="float:left;">
                 <h4>TOTAL CALORIES</h4>
                 <ul style="display:table-caption;" id="total">
                     <li style="padding-bottom:2px;"">0</li>
                 </ul>
             </div>
+            {% endif %}
         </div>
     </body>
 </html>
