@@ -243,5 +243,10 @@ def getImageTags(name):
 def ingredient(request):
     ingredient = request.GET.get('ingredient')
     print(ingredient)
-    calorieCount = Ingredients.objects.filter(ingredient = ingredient)
+    calorieCount = Ingredients.objects.filter(ingredient = ingredient).values('calories')
+
+  #  for wat in calorieCount:
+   #     return HttpResponse(calorieCount[wat])
+
+    # print(calorieCount['calories'])
     return HttpResponse(calorieCount)
