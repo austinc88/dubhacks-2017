@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django_nose',
     'rest_framework',
     'corsheaders',
+    'hackathon_starter'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -70,6 +71,9 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'hackathon', 'media')
+MEDIA_URL = '/media/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -156,3 +160,7 @@ DROPBOX_APP_SECRET = ''
 
 FOURSQUARE_APP_ID = ''
 FOURSQUARE_APP_SECRET = ''
+
+FIXTURE_DIRS = (
+   '/Users/chuchutrainn/Documents/Dubhacks2016/dubhacks-2017/hackathon_starter/fixtures/',
+)

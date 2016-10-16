@@ -6,7 +6,7 @@
                       Main Styles
 =========================================================*/
 body {
-  background: #a95858;
+  background: #transparent;
   color: #333;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
@@ -465,78 +465,12 @@ a[href^="tel:"] {
     display: none !important;
   }
 }
-/*==================   Parallax    ======================*/
-.parallax {
-  width: 100%;
-  background-position: center 0;
-  background-repeat: no-repeat;
-}
-.mobile .parallax,
-.tablet .parallax {
-  background-position: 50% 0 !important;
-  background-size: cover;
-}
-.parallax1 {
-  text-align: center;
-  background-color: #FFF;
-  background-image: url(../images/parallax01.jpg);
-  padding: 132px 0 127px;
-}
-.parallax2 {
-  color: #ffffff;
-  background-color: #FFF;
-  background-image: url(../images/parallax02.jpg);
-  padding: 142px 0 142px;
-}
-.parallax3 {
-  background-color: #FFF;
-  background-image: url(../images/parallax03.jpg);
-  padding: 117px 0 122px;
-}
-.parallax4 {
-  color: #ffffff;
-  background-color: #FFF;
-  background-image: url(../images/parallax04.jpg);
-  padding: 97px 0 100px;
-}
-.parallax4 h2 {
-  color: #ffffff;
-}
-.parallax5 {
-  color: #ffffff;
-  background-color: #FFF;
-  background-image: url(../images/parallax05.jpg);
-  padding: 134px 0px 132px;
-}
-.parallax5 h2 {
-  color: #ffffff;
-  text-align: left;
-  padding-left: 65px;
-  position: relative;
-}
-.parallax5 h2:before {
-  content: '\f000';
-  position: absolute;
-  left: 0;
-  top: 10px;
-  font-family: 'FontAwesome';
-  font-size: 60px;
-  line-height: 60px;
-}
-@media (max-width: 767px) {
-  .parallax {
-    background-position: center 0 !important;
-    background-size: cover;
-  }
-}
-.img__border {
-  border: 1px solid #6c6860;
-}
+
 /*========================================================
                      HEADER  Section
 =========================================================*/
 header {
-  background: #a95858;
+  background: #transparent;
 }
 header .brand {
   float: left;
@@ -566,12 +500,12 @@ header .nav {
   font-family: 'Yesteryear', cursive;
   font-size: 60px;
   line-height: 64px;
-  color: #ffffff;
+  color: white;
 }
 .caption {
   font-family: 'Yesteryear';
   font-size: 30px;
-  color: #ffffff;
+  color: #365593;
 }
 /*=======================================================
                      CONTENT  Layout

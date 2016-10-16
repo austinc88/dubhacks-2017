@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+{% include 'hackathon/base.html' %}
+    <head>
+        <meta charset="utf-8">
+        <title>WHATCHU EATIN</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    </head>
+    <script>
+        $(document).ready(function() {
+
+        // JQuery code to be added in here.
+            var caloriesList = $("#calories-list").children();
+            var amountList = $('#amount-list').children();
+            var cals = $('#cals').children();
+            var total = $('#total').children();
+
+            var total_val = 0
+            for (var j = 0; j < amountList.length; j++) {
+                total_val += parseInt($(cals[j]).text())
+            }
+            $(total[0]).text(total_val.toString())
+
+            for (var i = 0; i < caloriesList.length; i++) {
+                $(caloriesList[i]).click(function(event) {
+                    console.log($(event.target).text());
+                });
+            }
+            for (var i = 0; i < amountList.length; i++) {
+                $(amountList[i]).change(function(event) {
+                    var index = $(event.target).index()
+                    var input_val = $(event.target).val();
+                    var output_val = $(caloriesList[index]).text() * input_val;
+                    $(cals[index]).text(output_val)
+
+                    total_val = 0
+                    for (var j = 0; j < amountList.length; j++) {
+                        total_val += parseInt($(cals[j]).text())
+                    }
+                    $(total[0]).text(total_val.toString())
+
+                });
+            }
+        });
+    </script>
+
+    <table id="TableA">
+    <tr>
+<!--     <td>Old top row</td>
+ -->    </tr>
+    </table>
+    <script type="text/javascript">
+
+    function addRow(tableID) {
+      // Get a reference to the table
+      var tableRef = document.getElementById(tableID);
+
+      // Insert a row in the table at row index 0
+      var newRow   = tableRef.insertRow(0);
+
+      // Insert a cell in the row at index 0
+      var newCell  = newRow.insertCell(0);
+
+      // Append a text node to the cell
+      var newText  = document.createTextNode('New top row');
+      newCell.appendChild(newText);
+    }
+
+    // Call addRow() with the ID of a table
+    // addRow('TableA');
+
+    </script>
+    <body>
+        <!-- List of uploaded documents -->
+        {% if documents %}
+            <ul>
+            {% for document in documents %}
+                <li><a href="{{ document.docfile.url }}">{{ document.docfile.name }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No documents.</p>
+        {% endif %}
+
+        {% for document in documents %}
+        <img src="{{document.docfile.url}}"
+        {% endfor %}
+        <!-- Upload form. Note enctype attribute! -->
+        <form action="{% url 'list' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>{{ form.non_field_errors }}</p>
+            <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+            <p>
+                {{ form.docfile.errors }}
+                {{ form.docfile }}
+            </p>
+            <p><input type="submit" value="Upload" /></p>
+<!--             <p><input type="button" value="Generate a table." onclick="generate_table()">
+ -->            <p><input type="submit" value="Clear" name="Delete" /></p>
+        </form>
+
+        
+        
+        <div>
+            <div style="float:left; padding-right:10px;">
+            {% if ingredients %}
+                <h4>INGREDIENT</h4>
+                <ul>
+                    {% for i in ingredients %}
+                        <li style="padding-bottom:2px;">{{ i }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No data.</p>
+            {% endif %}
+            </div>
+            <div style="float:left; padding-right:30px;">
+            {%if calories %}
+                <h4>CALORIES PER GRAM</h4>
+                <ul id="calories-list">
+                    {% for c in calories %}
+                        <li style="padding-bottom:2px;"">{{ c }}</li>
+                    {% endfor %}
+                </ul>
+            {%endif %}
+            </div>
+            <div style="float:left;">
+                {%if calories %}
+                    <h4>AMOUNT IN GRAMS</h4>
+                    <ul style="display:table-caption;" id="amount-list">
+                        {%for c in calories %}
+                            <input type="text" name="grams" value="1">
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div style="float:left;">
+                {%if calories %}
+                    <h4>CALORIES</h4>
+                    <ul style="display:table-caption;" id="cals">
+                        {%for c in calories %}
+                            <li style="padding-bottom:2px;"">{{ c }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            {% if calories %}
+            <div style="float:left;">
+                <h4>TOTAL CALORIES</h4>
+                <ul style="display:table-caption;" id="total">
+                    <li style="padding-bottom:2px;"">0</li>
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+    </body>
+</html>

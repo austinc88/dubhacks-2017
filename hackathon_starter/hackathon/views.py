@@ -1,7 +1,8 @@
 # Django
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.contrib.auth import logout
 from django.template import RequestContext, loader
+from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
@@ -10,6 +11,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+
+from django.db import models
 
 # Django REST Framework
 from rest_framework import viewsets, mixins
@@ -21,11 +24,14 @@ from scripts.facebook import *
 import oauth2 as oauth
 import simplejson as json
 import requests
+import os
+import os.path
 
 # Models
 from hackathon.models import *
 from hackathon.serializers import SnippetSerializer
 from hackathon.forms import UserForm
+from hackathon.forms import DocumentForm
 
 
 profile_track = None
@@ -154,3 +160,100 @@ def facebook_login(request):
     facebook_url = getFacebook.get_authorize_url()
     return HttpResponseRedirect(facebook_url)
 
+#Database
+
+def list(request):
+    # Handle file upload
+    data = {}
+    if request.method == 'POST':
+        if request.POST.get('Delete'):
+            for obj in Document.objects.all():
+                if os.path.exists(obj.docfile.path):
+                    os.remove(obj.docfile.path)
+                obj.delete()
+
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            newdoc = Document(docfile = request.FILES['docfile'])
+            newdoc.save()
+            docNames = newdoc.docfile.name.split("/")
+            filename = docNames[1]
+            data = getImageTags(filename)
+            ingredients = []
+            calories = []
+            for d in data :
+                ingredients.append(d)
+                calories.append(data[d])
+            print(data)
+            documents = Document.objects.all()
+            return render_to_response(
+                'hackathon/list.html',
+                {'documents': documents, 'form': form, 'ingredients': ingredients, 'calories':calories },
+                context_instance=RequestContext(request)
+            )
+            # Redirect to the document list after POST
+            #call the clarifai api from here
+            #return HttpResponseRedirect(reverse('hackathon.views.list'))
+    else:
+        form = DocumentForm() # A empty, unbound form
+
+    # Load documents for the list page
+    documents = Document.objects.all()
+
+    # Render list page with the documents and the form
+    return render_to_response(
+        'hackathon/list.html',
+        {'documents': documents, 'form': form, 'data': data},
+        context_instance=RequestContext(request)
+    )
+
+################
+# CLARIFAI API #
+################
+@csrf_exempt
+def image(request):
+    print("received response")
+    name = request.GET.get('name')
+    return getImageTags(name)
+
+@csrf_exempt
+def getImageTags(name):
+    returnData = {}
+    try :
+        url =  "https://api.clarifai.com/v1/tag/?model=food-items-v1.0"
+        headers = {'Authorization' : 'Bearer aA1P5zUg5sjHdQkVETcBZWnbkWApa3'}
+        image = {'encoded_data' : open('hackathon/media/uploads/' + name, 'rb')}
+        response = requests.post(url, headers=headers, files=image)
+        response = json.loads(json.dumps(response.json()))
+        print(response)
+        data = response['results'][0]['result']['tag']
+        for ingredient, prob in zip(data['classes'], data['probs']):
+            print(ingredient)
+            print(prob)
+            if prob > 0.5:
+                #look for calories in the db with this key
+                print("we are adding this ingredient: " + ingredient)
+                print(Ingredients.objects.all())
+                print(Ingredients.objects.filter(ingredient=ingredient))
+                matchingIngredients = Ingredients.objects.filter(ingredient=ingredient)
+                if len(matchingIngredients) > 0 :
+                    print(matchingIngredients.values())
+                    returnData[ingredient] = matchingIngredients.values()[0]['calories']
+
+        print(returnData)
+        return returnData
+    except:
+        print("image name cannot be found")
+        return None
+
+@csrf_exempt
+def ingredient(request):
+    ingredient = request.GET.get('ingredient')
+    print(ingredient)
+    calorieCount = Ingredients.objects.filter(ingredient = ingredient).values('calories')
+
+  #  for wat in calorieCount:
+   #     return HttpResponse(calorieCount[wat])
+
+    # print(calorieCount['calories'])
+    return HttpResponse(calorieCount)

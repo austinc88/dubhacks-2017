@@ -2,6 +2,9 @@
 <html>
     {% include 'hackathon/base.html' %}
     <style>
+    body {
+      background-image: url("http://wallpapercave.com/wp/bM2WavU.jpg");
+    }
       .form-signin {
         max-width: 550px;
         padding: 15px;
@@ -14,7 +17,7 @@
         <form class="form-signin" id="login_form" method="post" action="/hackathon/login/">
           {% csrf_token %}
           {% load bootstrap %}
-          <h2 class="form-signin-heading">Login</h2>
+          <h2 class="form-signin-heading"><font color=white>Login</font></h2>
           <br>
           <input type="text" name="username" class="form-control" placeholder="Username" value="" required autofocus>
           <br>

@@ -1,5 +1,7 @@
 import csv
 import json
+import re
+
 
 foodObj = {}
 
@@ -7,7 +9,7 @@ nutritionObj = {}
 
 data = {}
 with open('food.csv', 'rb') as csvfile:
-    foodReader = csv.reader(csvfile, delimiter=',', quotechar='\"')
+    foodReader = csv.reader(csvfile, delimiter=',', quotechar='"')
     for row in foodReader:
         if row[4] != 'FoodDescription':
             ingredient = row[4]
@@ -15,7 +17,7 @@ with open('food.csv', 'rb') as csvfile:
             foodObj[foodId] = ingredient
 
 with open('nutrient.csv', 'rb') as csvfile:
-    foodReader = csv.reader(csvfile, delimiter=',', quotechar='\"')
+    foodReader = csv.reader(csvfile, delimiter=',', quotechar='"')
     for row in foodReader:
         if row[2] != 'NutrientValue':
             foodId = row[0]
@@ -23,16 +25,29 @@ with open('nutrient.csv', 'rb') as csvfile:
             if row[1] == '208':
                 nutritionObj[foodId] = nutrientValue
 
-
+counter = 1
 for key in foodObj :
     calories = nutritionObj[key]
     if calories :
+        model = {
+            "model" : "hackathon.Ingredients",
+            "pk" : counter,
+            "fields" : {
+
+            }
+        }
         description = foodObj[key]
         nutrition = str(nutritionObj[key])
-        data[description] = nutrition
+        model["fields"]["ingredient"] = description
+        model["fields"]["calories"] = nutrition
+        model["fields"]["amount"] = 1
+        data[str(counter)] = model
+        counter = counter + 1
+        print(model)
 
-for key in data:
-    print "Food is " + key + ", calories per gram is " + str(data[key])
+
+# for key in data:
+#     print "Food is " + key + ", calories per gram is " + str(data[key])
 
 with open('data.json', 'w') as outfile:
     json.dump(unicode(data), outfile)
