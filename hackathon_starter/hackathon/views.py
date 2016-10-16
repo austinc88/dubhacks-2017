@@ -12,6 +12,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 
+from django.db import models
+
 # Django REST Framework
 from rest_framework import viewsets, mixins
 
@@ -22,6 +24,8 @@ from scripts.facebook import *
 import oauth2 as oauth
 import simplejson as json
 import requests
+import os
+import os.path
 
 # Models
 from hackathon.models import *
@@ -159,11 +163,15 @@ def facebook_login(request):
 def list(request):
     # Handle file upload
     if request.method == 'POST':
+        if request.POST.get('Delete'):
+            for obj in Document.objects.all():
+                os.remove(obj.docfile.path)
+                obj.delete()
+        
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
             newdoc = Document(docfile = request.FILES['docfile'])
             newdoc.save()
-
             # Redirect to the document list after POST
             return HttpResponseRedirect(reverse('hackathon.views.list'))
     else:
