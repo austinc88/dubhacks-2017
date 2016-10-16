@@ -133,7 +133,7 @@
       "fields": {
         "amount": 1, 
         "calories": "6.15", 
-        "ingredient": "fruit"}
+        "ingredient": "apple"}
     },
     {
       "pk": 17, 
@@ -142,8 +142,53 @@
         "amount": 1, 
         "calories": "36.7", 
         "ingredient": "cake"}
+    },
+        {
+      "pk": 18, 
+      "model": "hackathon.Ingredients", 
+      "fields": {
+        "amount": 1, 
+        "calories": "1", 
+        "ingredient": "basil"}
+    },
+        {
+      "pk": 19, 
+      "model": "hackathon.Ingredients", 
+      "fields": {
+        "amount": 1, 
+        "calories": "30.7", 
+        "ingredient": "sausage"}
+    },
+        {
+      "pk": 20, 
+      "model": "hackathon.Ingredients", 
+      "fields": {
+        "amount": 1, 
+        "calories": "26.5", 
+        "ingredient": "bun"}
+    },
+        {
+      "pk": 21, 
+      "model": "hackathon.Ingredients", 
+      "fields": {
+        "amount": 1, 
+        "calories": "10.5", 
+        "ingredient": "tuna"}
+    },
+      {
+      "pk": 22, 
+      "model": "hackathon.Ingredients", 
+      "fields": {
+        "amount": 1, 
+        "calories": "13", 
+        "ingredient": "rice"}
+    },
+    {
+      "pk": 23, 
+      "model": "hackathon.Ingredients", 
+      "fields": {
+        "amount": 1, 
+        "calories": "9.5", 
+        "ingredient": "fillet"}
     }
-
-
-
 ]
