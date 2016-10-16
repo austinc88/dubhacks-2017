@@ -179,16 +179,15 @@ def list(request):
             docNames = newdoc.docfile.name.split("/")
             filename = docNames[1]
             data = getImageTags(filename)
-            ingredients = []
-            calories = []
+            returnData = []
             for d in data :
-                ingredients.append(d)
-                calories.append(data[d])
+                returnObj = {'ingredients' : d, 'calories' : data[d]}
+                returnData.append(returnObj)
             print(data)
             documents = Document.objects.all()
             return render_to_response(
                 'hackathon/list.html',
-                {'documents': documents, 'form': form, 'ingredients': ingredients, 'calories':calories },
+                {'documents': documents, 'form': form, 'data': returnData},
                 context_instance=RequestContext(request)
             )
             # Redirect to the document list after POST

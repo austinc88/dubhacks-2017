@@ -11,10 +11,10 @@
         $(document).ready(function() {
 
         // JQuery code to be added in here.
-            var caloriesList = $("#calories-list").children();
-            var amountList = $('#amount-list').children();
-            var cals = $('#cals').children();
-            var total = $('#total').children();
+            var caloriesList = $("#icalories")
+            var amountList = $('#amount-list')
+            var cals = $('#totalCalories')
+            var total = $('#finalCalories')
 
             var total_val = 0
             for (var j = 0; j < amountList.length; j++) {
@@ -60,7 +60,7 @@
         <img src="{{document.docfile.url}}"
         {% endfor %}
         <!-- Upload form. Note enctype attribute! -->
-        <form action="{% url 'list' %}" method="post" enctype="multipart/form-data">
+        <form action="{% url 'list' %}" method="post" enctype="multipart/form-data" style="margin-left:30px;">
             {% csrf_token %}
             <p>{{ form.non_field_errors }}</p>
             <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
@@ -73,56 +73,32 @@
         </form>
 
         <div>
-            <div style="float:left; padding-right:10px;">
-            {% if ingredients %}
-                <h4>INGREDIENT</h4>
-                <ul>
-                    {% for i in ingredients %}
-                        <li style="padding-bottom:2px;">{{ i }}</li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>No data.</p>
-            {% endif %}
-            </div>
-            <div style="float:left; padding-right:30px;">
-            {%if calories %}
-                <h4>CALORIES PER GRAM</h4>
-                <ul id="calories-list">
-                    {% for c in calories %}
-                        <li style="padding-bottom:2px;"">{{ c }}</li>
-                    {% endfor %}
-                </ul>
-            {%endif %}
-            </div>
-            <div style="float:left;">
-                {%if calories %}
-                    <h4>AMOUNT IN GRAMS</h4>
-                    <ul style="display:table-caption;" id="amount-list">
-                        {%for c in calories %}
-                            <input type="text" name="grams" value="1">
+            <div>
+                {% if data %}
+                    <table style="width:100%;margin-left:30px;">
+                        <tr>
+                            <th>Ingredients</th>
+                            <th>Calories Per Gram</th>
+                            <th>Amount in Gram</th>
+                            <th>Total Calories</th>
+                        </tr>
+                        {% for d in data %}
+                            <tr>
+                                <td id="ingredient">{{d.ingredients}}</td>
+                                <td id="icalories">{{d.calories}}</td>
+                                <td id="amount"><input type="text" name="grams" value="1"></td>
+                                <td id="totalCalories">{{d.calories}}</td>
+                            </tr>
                         {% endfor %}
-                    </ul>
+                    </table>
+                {% else %}
+                    <p>No data.</p>
                 {% endif %}
             </div>
-            <div style="float:left;">
-                {%if calories %}
-                    <h4>CALORIES</h4>
-                    <ul style="display:table-caption;" id="cals">
-                        {%for c in calories %}
-                            <li style="padding-bottom:2px;"">{{ c }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
+            <div style="text-align:center;">
+                <h2>TOTAL CALORIES:</h2>
+                <h2 id="finalCalories">300</h2>
             </div>
-            {% if calories %}
-            <div style="float:left;">
-                <h4>TOTAL CALORIES</h4>
-                <ul style="display:table-caption;" id="total">
-                    <li style="padding-bottom:2px;"">0</li>
-                </ul>
-            </div>
-            {% endif %}
         </div>
     </body>
 </html>
