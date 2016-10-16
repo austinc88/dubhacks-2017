@@ -11,15 +11,15 @@
         $(document).ready(function() {
 
         // JQuery code to be added in here.
-            var caloriesList = $("#icalories")
-            var amountList = $('#amount-list')
-            var cals = $('#totalCalories')
-            var total = $('#finalCalories')
+            var caloriesList = $("#icalories");
+            var amountList = $('#amount-list');
+            var cals = $('#totalCalories');
+            var total = $('#finalCalories');
 
-            var table = $('#ingredient_table')
+            var table = $('#ingredient_table');
 
 
-            var total_val = 0
+            var total_val = 0;
 
             $(table.children().children()).each(function() {
                 var $this = $(this);
@@ -43,7 +43,7 @@
                     console.log($(total)[1])
                     $(total).text(total_val.toString())
                 });
-            }
+            });
 
             // adding rows
             var table = document.getElementById("ingredient_table");
@@ -86,13 +86,12 @@
             });
 
 
-                total_val = 0
-                for (var j = 0; j < $this.length; j++) {
-                    total_val += parseFloat($(totalcals[j]).text())
-                }
-                $(total).text(Number(total_val).toFixed(2).toString())
+            total_val = 0
+            for (var j = 0; j < $this.length; j++) {
+                total_val += parseFloat($(totalcals[j]).text())
+            }
+            $(total).text(Number(total_val).toFixed(2).toString())
 
-            });
         });
     </script>
 
