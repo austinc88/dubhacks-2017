@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+{% include 'hackathon/base.html' %}
     <head>
         <meta charset="utf-8">
         <title>Minimal Django File Upload Example</title>
@@ -49,6 +50,9 @@
             <p>No documents.</p>
         {% endif %}
 
+        {% for document in documents %}
+        <img src="{{document.docfile.url}}"
+        {% endfor %}
         <!-- Upload form. Note enctype attribute! -->
         <form action="{% url 'list' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
