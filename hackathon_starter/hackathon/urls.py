@@ -15,6 +15,6 @@ urlpatterns = patterns('',
     url(r'^facebook_login/$', views.facebook_login, name='facebook_login'),
     url(r'^facebook/$', views.facebook, name='facebook'),
     url(r'^image/$', views.image, name='image'),
-    url(r'^ingredient/$', views.ingredient, name='ingredient')
+    url(r'^ingredient/$', views.ingredient, name='ingredient'),
     url(r'^list/$', views.list, name='list')
 )
