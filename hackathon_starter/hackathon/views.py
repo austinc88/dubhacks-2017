@@ -160,6 +160,8 @@ def facebook_login(request):
     facebook_url = getFacebook.get_authorize_url()
     return HttpResponseRedirect(facebook_url)
 
+#Database
+
 def list(request):
     # Handle file upload
     if request.method == 'POST':
