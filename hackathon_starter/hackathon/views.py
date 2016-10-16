@@ -410,7 +410,7 @@ def meetupToken(request):
 
     response = requests.post(url)
     access_token = json.loads(response.content)['access_token']
- 
+
     if not MeetupToken.objects.all().exists():
         meetupToken = MeetupToken(access_token = access_token)
         meetupToken.save()
@@ -829,3 +829,37 @@ def foursquare_login(request):
     profile_track = 'foursquare'
     forsquare_url = getFoursquare.get_authorize_url()
     return HttpResponseRedirect(forsquare_url)
+
+################
+# CLARIFAI API #
+################
+@csrf_exempt
+def image(request):
+    print("received response")
+    returnData = {}
+    name = request.GET.get('name')
+    print(name)
+    url =  "https://api.clarifai.com/v1/tag/?model=food-items-v1.0"
+    headers = {'Authorization' : 'Bearer aA1P5zUg5sjHdQkVETcBZWnbkWApa3'}
+    image = {'encoded_data' : open('hackathon/media/uploads/' + name, 'rb')}
+    print("sending request")
+    response = requests.post(url, headers=headers, files=image)
+    response = json.loads(json.dumps(response.json()))
+    data = response['results'][0]['result']['tag']
+    for ingredient, prob in zip(data['classes'], data['probs']):
+        print(ingredient)
+        print(prob)
+        if prob > 0.5:
+            returnData[ingredient] = "10"
+
+    print(returnData)
+    return returnData
+
+@csrf_exempt
+def ingredient(request):
+    response = {}
+    if request.method == "POST":
+        ingredient = request.POST.get("ingredient")
+
+
+    return response

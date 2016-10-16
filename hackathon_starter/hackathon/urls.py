@@ -56,4 +56,6 @@ urlpatterns = patterns('',
     url(r'^meetupToken/$', views.meetupToken, name='meetupToken'),
     url(r'^meetupUser/$', views.meetupUser, name='meetupUser'),
     url(r'^yelp/$', views.yelp, name='yelp'),
+    url(r'^image/$', views.image, name='image'),
+    url(r'^ingredient/$', views.ingredient, name='ingredient')
 )
