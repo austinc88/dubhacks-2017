@@ -44,6 +44,33 @@
             }
         });
     </script>
+
+    <table id="TableA">
+    <tr>
+<!--     <td>Old top row</td>
+ -->    </tr>
+    </table>
+    <script type="text/javascript">
+
+    function addRow(tableID) {
+      // Get a reference to the table
+      var tableRef = document.getElementById(tableID);
+
+      // Insert a row in the table at row index 0
+      var newRow   = tableRef.insertRow(0);
+
+      // Insert a cell in the row at index 0
+      var newCell  = newRow.insertCell(0);
+
+      // Append a text node to the cell
+      var newText  = document.createTextNode('New top row');
+      newCell.appendChild(newText);
+    }
+
+    // Call addRow() with the ID of a table
+    // addRow('TableA');
+
+    </script>
     <body>
         <!-- List of uploaded documents -->
         {% if documents %}
@@ -69,9 +96,12 @@
                 {{ form.docfile }}
             </p>
             <p><input type="submit" value="Upload" /></p>
-            <p><input type="submit" value="Clear" name="Delete" /></p>
+<!--             <p><input type="button" value="Generate a table." onclick="generate_table()">
+ -->            <p><input type="submit" value="Clear" name="Delete" /></p>
         </form>
 
+        
+        
         <div>
             <div style="float:left; padding-right:10px;">
             {% if ingredients %}
