@@ -22,5 +22,128 @@
         "amount": 1, 
         "calories": "0.16", 
         "ingredient": "Pepper"}
-      }
+      },
+    {
+      "pk": 3, 
+      "model": "hackathon.Ingredients", 
+      "fields": {
+        "amount": 1, 
+        "calories": "15.7", 
+        "ingredient": "spaghetti"}
+  },
+    {
+      "pk": 4, 
+      "model": "hackathon.Ingredients", 
+      "fields": {
+        "amount": 1, 
+        "calories": "18.8", 
+        "ingredient": "beef"}
+    },
+    {
+      "pk": 5, 
+      "model": "hackathon.Ingredients", 
+      "fields": {
+        "amount": 1, 
+        "calories": "3.6", 
+        "ingredient": "parsley"}
+    },
+    {
+      "pk": 6, 
+      "model": "hackathon.Ingredients", 
+      "fields": {
+        "amount": 1, 
+        "calories": "1.8", 
+        "ingredient": "tomato"}
+    },
+    {
+      "pk": 7, 
+      "model": "hackathon.Ingredients", 
+      "fields": {
+        "amount": 1, 
+        "calories": "18.3", 
+        "ingredient": "steak"}
+    },
+    {
+      "pk": 8, 
+      "model": "hackathon.Ingredients", 
+      "fields": {
+        "amount": 1, 
+        "calories": "2.0", 
+        "ingredient": "asparagus"}
+    },
+    {
+      "pk": 9, 
+      "model": "hackathon.Ingredients", 
+      "fields": {
+        "amount": 1, 
+        "calories": "10.9", 
+        "ingredient": "fish"}
+    },
+    {
+      "pk": 10, 
+      "model": "hackathon.Ingredients", 
+      "fields": {
+        "amount": 1, 
+        "calories": "18.2", 
+        "ingredient": "salmon"}
+    },
+    {
+      "pk": 11, 
+      "model": "hackathon.Ingredients", 
+      "fields": {
+        "amount": 1, 
+        "calories": "14.6", 
+        "ingredient": "sashimi"}
+    },
+    {
+      "pk": 12, 
+      "model": "hackathon.Ingredients", 
+      "fields": {
+        "amount": 1, 
+        "calories": "65.1", 
+        "ingredient": "seaweed"}
+    },
+    {
+      "pk": 13, 
+      "model": "hackathon.Ingredients", 
+      "fields": {
+        "amount": 1, 
+        "calories": "5.9", 
+        "ingredient": "prawn"}
+    },
+        {
+      "pk": 14, 
+      "model": "hackathon.Ingredients", 
+      "fields": {
+        "amount": 1, 
+        "calories": "1.01", 
+        "ingredient": "crab"}
+    },
+        {
+      "pk": 15, 
+      "model": "hackathon.Ingredients", 
+      "fields": {
+        "amount": 1, 
+        "calories": "34.5", 
+        "ingredient": "cream"}
+    },
+        {
+      "pk": 16, 
+      "model": "hackathon.Ingredients", 
+      "fields": {
+        "amount": 1, 
+        "calories": "6.15", 
+        "ingredient": "fruit"}
+    },
+    {
+      "pk": 17, 
+      "model": "hackathon.Ingredients", 
+      "fields": {
+        "amount": 1, 
+        "calories": "36.7", 
+        "ingredient": "cake"}
+    }
+
+
+
 ]
