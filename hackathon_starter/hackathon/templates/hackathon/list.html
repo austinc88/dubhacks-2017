@@ -16,32 +16,86 @@
             var cals = $('#totalCalories')
             var total = $('#finalCalories')
 
-            var total_val = 0
-            for (var j = 0; j < amountList.length; j++) {
-                total_val += parseInt($(cals[j]).text())
-            }
-            $(total[0]).text(total_val.toString())
+            var table = $('#ingredient_table')
 
-            for (var i = 0; i < caloriesList.length; i++) {
-                $(caloriesList[i]).click(function(event) {
-                    console.log($(event.target).text());
-                });
-            }
-            for (var i = 0; i < amountList.length; i++) {
-                $(amountList[i]).change(function(event) {
+
+            var total_val = 0
+
+            $(table.children().children()).each(function() {
+                var $this = $(this);
+                var ingredient = $this.find("td#ingredient");
+                var calspg = $this.find("td#icalories");
+                var amount = $this.find("input");
+                var totalcals = $this.find("td#totalCalories");
+
+                amount.change(function(event) {
                     var index = $(event.target).index()
                     var input_val = $(event.target).val();
-                    var output_val = $(caloriesList[index]).text() * input_val;
-                    $(cals[index]).text(output_val)
+                    output_val = Number(parseFloat($(calspg).text()) * amount.val()).toFixed(2);
+                    $(totalcals).text(output_val);
 
                     total_val = 0
-                    for (var j = 0; j < amountList.length; j++) {
-                        total_val += parseInt($(cals[j]).text())
-                    }
-                    $(total[0]).text(total_val.toString())
 
+                    for (var j = 0; j < $this.length; j++) {
+                        total_val += parseFloat($(totalcals[j]).text())
+                        console.log(total_val)
+                    }
+                    console.log($(total)[1])
+                    $(total).text(total_val.toString())
                 });
-            }
+
+                total_val = 0
+                for (var j = 0; j < $this.length; j++) {
+                    total_val += parseFloat($(totalcals[j]).text())
+                }
+                $(total).text(Number(total_val).toFixed(2).toString())
+                
+            })
+
+            // for (var i = 0; i < $(table.children().children()).length; i++) {
+            //     var ical = $(table.children().children()[i]).find("#icalories")
+            //     var totalcal = $(table.children().children()[i]).find("#totalCalories")
+            //     $(table.children().children()[i]).find("input").change(function(event) {
+            //         var index = $(event.target).index()
+            //         //console.log(index)
+            //         var input_val = $(event.target).val();
+            //         var output_val = parseFloat($($(table.children().children()[index]).find("#icalories")).text()) * input_val;
+            //         $(table.children().children()[index]).find("#totalCalories").text(output_val)
+            //         //console.log(output_val)
+            //         total_val = 0
+            //         for (var j = 0; j < table.children().children().length; j++) {
+            //             total_val += parseInt($(cals[j]).text())
+            //         }
+            //         $(total[0]).text(total_val.toString())
+
+            //     })
+            // }
+
+            // for (var j = 0; j < amountList.length; j++) {
+            //     total_val += parseInt($(cals[j]).text())
+            // }
+            // $(total[0]).text(total_val.toString())
+
+            // for (var i = 0; i < caloriesList.length; i++) {
+            //     $(caloriesList[i]).click(function(event) {
+            //         console.log($(event.target).text());
+            //     });
+            // }
+            // for (var i = 0; i < amountList.length; i++) {
+            //     $(amountList[i]).change(function(event) {
+            //         var index = $(event.target).index()
+            //         var input_val = $(event.target).val();
+            //         var output_val = $(caloriesList[index]).text() * input_val;
+            //         $(cals[index]).text(output_val)
+
+            //         total_val = 0
+            //         for (var j = 0; j < amountList.length; j++) {
+            //             total_val += parseInt($(cals[j]).text())
+            //         }
+            //         $(total[0]).text(total_val.toString())
+
+            //     });
+            // }
         });
     </script>
 
@@ -105,7 +159,7 @@
         <div>
             <div>
                 {% if data %}
-                    <table style="width:100%;margin-left:30px;">
+                    <table style="width:100%;margin-left:30px;" id="ingredient_table">
                         <tr>
                             <th>Ingredients</th>
                             <th>Calories Per Gram</th>
