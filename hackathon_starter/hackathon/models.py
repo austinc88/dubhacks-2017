@@ -27,20 +27,25 @@ class Snippet(models.Model):
     class Meta:
         ordering = ('created',)
 
-class FacebookProfile(models.Model):
-    user = models.ForeignKey(User)
-    fb_user_id = models.CharField(max_length=100)
-    time_created = models.DateTimeField(auto_now_add=True)
-    profile_url = models.CharField(max_length=50)
-    access_token = models.CharField(max_length=100)
+# class FacebookProfile(models.Model):
+#     user = models.ForeignKey(User)
+#     fb_user_id = models.CharField(max_length=100)
+#     time_created = models.DateTimeField(auto_now_add=True)
+#     profile_url = models.CharField(max_length=50)
+#     access_token = models.CharField(max_length=100)
 
 class Document(models.Model):
     docfile = models.FileField(upload_to='uploads')
 
+class FoodCalories(models.Model):
+    calories = models.IntegerField()
+    ingredient = models.CharField(max_length=1000)
+
+
 class Ingredients(models.Model):
     ingredient = models.CharField(max_length=1000)
-    calories = models.IntegerField()
-    amount = models.IntegerField()
+    calories = models.CharField(max_length=1000)
+    amount = models.CharField(max_length=1000)
 
     def __unicode__(self):
         return self.ingredient

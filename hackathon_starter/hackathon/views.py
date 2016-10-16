@@ -164,6 +164,7 @@ def facebook_login(request):
 
 def list(request):
     # Handle file upload
+    data = {}
     if request.method == 'POST':
         if request.POST.get('Delete'):
             for obj in Document.objects.all():
@@ -174,8 +175,24 @@ def list(request):
         if form.is_valid():
             newdoc = Document(docfile = request.FILES['docfile'])
             newdoc.save()
+            docNames = newdoc.docfile.name.split("/")
+            filename = docNames[1]
+            data = getImageTags(filename)
+            ingredients = []
+            calories = []
+            for d in data :
+                ingredients.append(d)
+                calories.append(data[d])
+            print(data)
+            documents = Document.objects.all()
+            return render_to_response(
+                'hackathon/list.html',
+                {'documents': documents, 'form': form, 'ingredients': ingredients, 'calories':calories },
+                context_instance=RequestContext(request)
+            )
             # Redirect to the document list after POST
-            return HttpResponseRedirect(reverse('hackathon.views.list'))
+            #call the clarifai api from here
+            #return HttpResponseRedirect(reverse('hackathon.views.list'))
     else:
         form = DocumentForm() # A empty, unbound form
 
@@ -185,7 +202,7 @@ def list(request):
     # Render list page with the documents and the form
     return render_to_response(
         'hackathon/list.html',
-        {'documents': documents, 'form': form},
+        {'documents': documents, 'form': form, 'data': data},
         context_instance=RequestContext(request)
     )
 
@@ -195,9 +212,13 @@ def list(request):
 @csrf_exempt
 def image(request):
     print("received response")
+    name = request.GET.get('name')
+    return getImageTags(name)
+
+@csrf_exempt
+def getImageTags(name):
     returnData = {}
     try :
-        name = request.GET.get('name')
         url =  "https://api.clarifai.com/v1/tag/?model=food-items-v1.0"
         headers = {'Authorization' : 'Bearer aA1P5zUg5sjHdQkVETcBZWnbkWApa3'}
         image = {'encoded_data' : open('hackathon/media/uploads/' + name, 'rb')}
@@ -216,6 +237,7 @@ def image(request):
         return returnData
     except:
         print("image name cannot be found")
+        return None
 
 @csrf_exempt
 def ingredient(request):
