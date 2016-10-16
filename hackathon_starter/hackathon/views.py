@@ -168,7 +168,8 @@ def list(request):
     if request.method == 'POST':
         if request.POST.get('Delete'):
             for obj in Document.objects.all():
-                os.remove(obj.docfile.path)
+                if os.path.exists(obj.docfile.path):
+                    os.remove(obj.docfile.path)
                 obj.delete()
 
         form = DocumentForm(request.POST, request.FILES)
@@ -231,7 +232,13 @@ def getImageTags(name):
             print(prob)
             if prob > 0.5:
                 #look for calories in the db with this key
-                returnData[ingredient] = "10"
+                print("we are adding this ingredient: " + ingredient)
+                print(Ingredients.objects.all())
+                print(Ingredients.objects.filter(ingredient=ingredient))
+                matchingIngredients = Ingredients.objects.filter(ingredient=ingredient)
+                if len(matchingIngredients) > 0 :
+                    print(matchingIngredients.values())
+                    returnData[ingredient] = matchingIngredients.values()[0]['calories']
 
         print(returnData)
         return returnData
