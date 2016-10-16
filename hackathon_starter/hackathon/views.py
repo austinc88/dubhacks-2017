@@ -168,7 +168,8 @@ def list(request):
     if request.method == 'POST':
         if request.POST.get('Delete'):
             for obj in Document.objects.all():
-                os.remove(obj.docfile.path)
+                if os.path.exists(obj.docfile.path):
+                    os.remove(obj.docfile.path)
                 obj.delete()
 
         form = DocumentForm(request.POST, request.FILES)
