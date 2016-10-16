@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django_nose',
     'rest_framework',
     'corsheaders',
+    'hackathon_starter'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -156,3 +157,7 @@ DROPBOX_APP_SECRET = ''
 
 FOURSQUARE_APP_ID = ''
 FOURSQUARE_APP_SECRET = ''
+
+FIXTURE_DIRS = (
+   '/Users/chuchutrainn/Documents/Dubhacks2016/dubhacks-2017/hackathon_starter/fixtures/',
+)

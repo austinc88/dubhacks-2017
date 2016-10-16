@@ -103,3 +103,14 @@ class FoursquareProfile(models.Model):
     foursquare_id = models.CharField(max_length=100)
     time_created = models.DateTimeField(auto_now_add=True)
     access_token = models.CharField(max_length=100)
+
+class Ingredients(models.Model):
+    ingredient = models.CharField(max_length=1000)
+    calories = models.IntegerField()
+    amount = models.IntegerField()
+
+    def __unicode__(self):
+        return self.ingredient
+
+    class Meta:
+        ordering = ('-calories', 'ingredient')
