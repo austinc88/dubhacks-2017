@@ -196,29 +196,29 @@ def list(request):
 def image(request):
     print("received response")
     returnData = {}
-    name = request.GET.get('name')
-    print(name)
-    url =  "https://api.clarifai.com/v1/tag/?model=food-items-v1.0"
-    headers = {'Authorization' : 'Bearer aA1P5zUg5sjHdQkVETcBZWnbkWApa3'}
-    image = {'encoded_data' : open('hackathon/media/uploads/' + name, 'rb')}
-    print("sending request")
-    response = requests.post(url, headers=headers, files=image)
-    response = json.loads(json.dumps(response.json()))
-    data = response['results'][0]['result']['tag']
-    for ingredient, prob in zip(data['classes'], data['probs']):
-        print(ingredient)
-        print(prob)
-        if prob > 0.5:
-            returnData[ingredient] = "10"
+    try :
+        name = request.GET.get('name')
+        url =  "https://api.clarifai.com/v1/tag/?model=food-items-v1.0"
+        headers = {'Authorization' : 'Bearer aA1P5zUg5sjHdQkVETcBZWnbkWApa3'}
+        image = {'encoded_data' : open('hackathon/media/uploads/' + name, 'rb')}
+        response = requests.post(url, headers=headers, files=image)
+        response = json.loads(json.dumps(response.json()))
+        print(response)
+        data = response['results'][0]['result']['tag']
+        for ingredient, prob in zip(data['classes'], data['probs']):
+            print(ingredient)
+            print(prob)
+            if prob > 0.5:
+                #look for calories in the db with this key
+                returnData[ingredient] = "10"
 
-    print(returnData)
-    return returnData
+        print(returnData)
+        return returnData
+    except:
+        print("image name cannot be found")
 
 @csrf_exempt
 def ingredient(request):
     response = {}
-    if request.method == "POST":
-        ingredient = request.POST.get("ingredient")
-
 
     return response
