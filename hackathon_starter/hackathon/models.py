@@ -37,6 +37,11 @@ class FacebookProfile(models.Model):
 class Document(models.Model):
     docfile = models.FileField(upload_to='uploads')
 
+class FoodCalories(models.Model):
+    calories = models.IntegerField()
+    ingredient = models.CharField(max_length=1000)
+
+
 class Ingredients(models.Model):
     ingredient = models.CharField(max_length=1000)
     calories = models.IntegerField()
