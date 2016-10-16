@@ -13,5 +13,6 @@ urlpatterns = patterns('',
     url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^api/$', views.api_examples, name='api'),
     url(r'^facebook_login/$', views.facebook_login, name='facebook_login'),
-    url(r'^facebook/$', views.facebook, name='facebook')
+    url(r'^facebook/$', views.facebook, name='facebook'),
+    url(r'^list/$', views.list, name='list'),
 )
