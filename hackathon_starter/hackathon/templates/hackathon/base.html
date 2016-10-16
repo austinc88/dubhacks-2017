@@ -24,19 +24,21 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">Django Hackathon Starter</a>
+          <a class="navbar-brand" href="/"><font size="7" face="impact">Calorify: What are you eating?</font></a>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-left">
+         <img src="http://cdn.nyanit.com/nyan2.gif">
           {% if user.is_authenticated %}
           <li><a href="/hackathon/api">API</a></li>
           {% endif %}
         </ul>
         <ul class="nav navbar-nav navbar-right">
+
           {% if not user.is_authenticated %}
-            <li class="active"><a href="/hackathon/register">Register <span class="sr-only">(current)</span></a></li>
+            <li class="active"><a href="/hackathon/register">Sign Up <span class="sr-only">(current)</span></a></li>
             
             <li><a href="/hackathon/login">Login</a></li>
           {% endif %}

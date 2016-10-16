@@ -5,7 +5,7 @@
     "fields": {
       "amount": 1, 
       "calories": "0.2", 
-      "ingredient": "Pokeberry shoots"}
+      "ingredient": "pokeberry shoots"}
     },
   {
     "model": "hackathon.Ingredients",
@@ -13,7 +13,7 @@
     "fields": {
       "amount": 1, 
       "calories": "1.11", 
-      "ingredient": "Peas"}
+      "ingredient": "peas"}
   },
     {
       "pk": 272, 
@@ -21,7 +21,7 @@
       "fields": {
         "amount": 1, 
         "calories": "0.16", 
-        "ingredient": "Pepper"}
+        "ingredient": "pepper"}
       },
     {
       "pk": 3, 
