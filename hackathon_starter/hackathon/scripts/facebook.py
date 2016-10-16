@@ -41,7 +41,7 @@ class FacebookOauthClient(object):
                 - The authorization url.
 
 		'''
-		authSettings = {'redirect_uri': "http://localhost:8000/hackathon/",
+		authSettings = {'redirect_uri': "http://localhost:8000/hackathon/api/",
 		                'client_id': self.client_id}
 		params = urllib.urlencode(authSettings)
 		return AUTHORIZE_URL + '?' + params
