@@ -36,9 +36,9 @@
 
                     total_val = 0
 
-                    for (var j = 0; j < $this.length; j++) {
+                    for (var j = 0; j < $(totalcals).length; j++) {
                         total_val += parseFloat($(totalcals[j]).text())
-                        console.log(total_val)
+                        console.log(j)
                     }
                     console.log($(total)[1])
                     $(total).text(total_val.toString())
@@ -51,51 +51,6 @@
                 $(total).text(Number(total_val).toFixed(2).toString())
                 
             })
-
-            // for (var i = 0; i < $(table.children().children()).length; i++) {
-            //     var ical = $(table.children().children()[i]).find("#icalories")
-            //     var totalcal = $(table.children().children()[i]).find("#totalCalories")
-            //     $(table.children().children()[i]).find("input").change(function(event) {
-            //         var index = $(event.target).index()
-            //         //console.log(index)
-            //         var input_val = $(event.target).val();
-            //         var output_val = parseFloat($($(table.children().children()[index]).find("#icalories")).text()) * input_val;
-            //         $(table.children().children()[index]).find("#totalCalories").text(output_val)
-            //         //console.log(output_val)
-            //         total_val = 0
-            //         for (var j = 0; j < table.children().children().length; j++) {
-            //             total_val += parseInt($(cals[j]).text())
-            //         }
-            //         $(total[0]).text(total_val.toString())
-
-            //     })
-            // }
-
-            // for (var j = 0; j < amountList.length; j++) {
-            //     total_val += parseInt($(cals[j]).text())
-            // }
-            // $(total[0]).text(total_val.toString())
-
-            // for (var i = 0; i < caloriesList.length; i++) {
-            //     $(caloriesList[i]).click(function(event) {
-            //         console.log($(event.target).text());
-            //     });
-            // }
-            // for (var i = 0; i < amountList.length; i++) {
-            //     $(amountList[i]).change(function(event) {
-            //         var index = $(event.target).index()
-            //         var input_val = $(event.target).val();
-            //         var output_val = $(caloriesList[index]).text() * input_val;
-            //         $(cals[index]).text(output_val)
-
-            //         total_val = 0
-            //         for (var j = 0; j < amountList.length; j++) {
-            //             total_val += parseInt($(cals[j]).text())
-            //         }
-            //         $(total[0]).text(total_val.toString())
-
-            //     });
-            // }
         });
     </script>
 
@@ -112,8 +67,11 @@
         {% endif %}
 
         {% for document in documents %}
-        <img src="{{document.docfile.url}}"
+            {% if forloop.last %}
+            <img src="{{document.docfile.url}}">
+            {% endif %}
         {% endfor %}
+
         <!-- Upload form. Note enctype attribute! -->
         <form action="{% url 'list' %}" method="post" enctype="multipart/form-data" style="margin-left:30px;">
             {% csrf_token %}
