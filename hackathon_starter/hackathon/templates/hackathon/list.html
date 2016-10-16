@@ -42,6 +42,48 @@
 
                 });
             }
+
+            // adding rows
+            var table = document.getElementById("tableview");
+            var addRow = document.getElementById("rowSubmit");
+            var ingredient = $("#ingInput");
+            var calories = $("#calInput");
+            var amount = $("#amtInput");
+            var i = "";
+            var c = "";
+            var a = "";
+            ingredient.change(function(event) {
+                i = $(event.target).val();
+            });
+
+            calories.change(function(event) {
+                c = $(event.target).val();
+            });
+
+            amount.change(function(event) {
+                a = $(event.target).val();
+            });
+
+            $(addRow).click(function(event) {
+                $.ajax("../ingredient?ingredient=" + i).then(function(res) {
+                    var retCal = res.length > 0 ? JSON.parse(res).calories : c;
+                    var row = table.insertRow(-1);
+                    var ingText = row.insertCell(0);
+                    var calText = row.insertCell(1);
+                    var amtText = row.insertCell(2);
+                    var totText = row.insertCell(3);
+                    ingText.innerHTML = i;
+                    calText.innerHTML = retCal
+                    amtText.innerHTML = "<input type=\"text\" name=\"grams\" value=\"" + a + "\">";
+                    var totalVal = a ? Number.parseFloat(a) * Number.parseFloat(retCal) : retCal;
+                    totText.innerHTML = totalVal.toFixed(1).toString();
+
+                }).fail(function(err) {
+                    console.log(err);
+                });
+            });
+
+
         });
     </script>
 
@@ -79,7 +121,7 @@
         <div>
             <div>
                 {% if data %}
-                    <table style="width:100%;margin-left:30px;">
+                    <table id="tableview" style="width:100%;margin-left:30px;">
                         <tr>
                             <th>Ingredients</th>
                             <th>Calories Per Gram</th>
@@ -94,6 +136,14 @@
                                 <td id="totalCalories">{{d.calories}}</td>
                             </tr>
                         {% endfor %}
+                    </table>
+                    <table style="width:100%;margin-left:30px;">
+                        <tr>
+                            <td id="ingInput"><input type="text" name="ingredient" placeholder="chicken breast"></td>
+                            <td id="calInput"><input type="text" name="calories/g" placeholder="1.6"></td>
+                            <td id="amtInput"><input type="text" name="grams" placeholder="100"></td>
+                            <td id="rowSubmit"><input type="submit" value="Add Ingredient"></td>
+                        </tr>
                     </table>
                 {% else %}
                     <p>No data.</p>
