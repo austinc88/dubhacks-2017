@@ -3,7 +3,40 @@
     <head>
         <meta charset="utf-8">
         <title>Minimal Django File Upload Example</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
     </head>
+    <script>
+        $(document).ready(function() {
+
+        // JQuery code to be added in here.
+            var caloriesList = $("#calories-list").children();
+            var amountList = $('#amount-list').children();
+            var cals = $('#cals').children();
+            var total = $('#total').children();
+
+            for (var i = 0; i < caloriesList.length; i++) {
+                $(caloriesList[i]).click(function(event) {
+                    console.log($(event.target).text());
+                });
+            }
+            for (var i = 0; i < amountList.length; i++) {
+                $(amountList[i]).change(function(event) {
+                    var index = $(event.target).index()
+                    var input_val = $(event.target).val();
+                    var output_val = $(caloriesList[index]).text() * input_val;
+                    $(cals[index]).text(output_val)
+
+                    var total_val = 0
+                    for (var j = 0; j < amountList.length; j++) {
+                        total_val += parseInt($(cals[j]).text())
+                    }
+                    $(total[0]).text(total_val.toString())
+
+                });
+            }
+        });
+    </script>
     <body>
         <!-- List of uploaded documents -->
         {% if documents %}
@@ -45,7 +78,7 @@
             <div style="float:left; padding-right:30px;">
             {%if calories %}
                 <h4>CALORIES PER GRAM</h4>
-                <ul>
+                <ul id="calories-list">
                     {% for c in calories %}
                         <li style="padding-bottom:2px;"">{{ c }}</li>
                     {% endfor %}
@@ -55,12 +88,28 @@
             <div style="float:left;">
                 {%if calories %}
                     <h4>AMOUNT IN GRAMS</h4>
-                    <ul style="display:table-caption;">
+                    <ul style="display:table-caption;" id="amount-list">
                         {%for c in calories %}
                             <input type="text" name="grams" value="1">
                         {% endfor %}
                     </ul>
                 {% endif %}
+            </div>
+            <div style="float:left;">
+                {%if calories %}
+                    <h4>CALORIES</h4>
+                    <ul style="display:table-caption;" id="cals">
+                        {%for c in calories %}
+                            <li style="padding-bottom:2px;"">{{ c }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div style="float:left;">
+                <h4>TOTAL CALORIES</h4>
+                <ul style="display:table-caption;" id="total">
+                    <li style="padding-bottom:2px;"">0</li>
+                </ul>
             </div>
         </div>
     </body>
