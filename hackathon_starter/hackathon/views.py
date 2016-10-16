@@ -1,7 +1,8 @@
 # Django
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.contrib.auth import logout
 from django.template import RequestContext, loader
+from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
@@ -10,6 +11,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+
+from django.db import models
 
 # Django REST Framework
 from rest_framework import viewsets, mixins
@@ -21,11 +24,14 @@ from scripts.facebook import *
 import oauth2 as oauth
 import simplejson as json
 import requests
+import os
+import os.path
 
 # Models
 from hackathon.models import *
 from hackathon.serializers import SnippetSerializer
 from hackathon.forms import UserForm
+from hackathon.forms import DocumentForm
 
 
 profile_track = None
@@ -154,7 +160,32 @@ def facebook_login(request):
     facebook_url = getFacebook.get_authorize_url()
     return HttpResponseRedirect(facebook_url)
 
-
 #Database
 
+def list(request):
+    # Handle file upload
+    if request.method == 'POST':
+        if request.POST.get('Delete'):
+            for obj in Document.objects.all():
+                os.remove(obj.docfile.path)
+                obj.delete()
+        
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            newdoc = Document(docfile = request.FILES['docfile'])
+            newdoc.save()
+            # Redirect to the document list after POST
+            return HttpResponseRedirect(reverse('hackathon.views.list'))
+    else:
+        form = DocumentForm() # A empty, unbound form
+
+    # Load documents for the list page
+    documents = Document.objects.all()
+
+    # Render list page with the documents and the form
+    return render_to_response(
+        'hackathon/list.html',
+        {'documents': documents, 'form': form},
+        context_instance=RequestContext(request)
+    )
 
