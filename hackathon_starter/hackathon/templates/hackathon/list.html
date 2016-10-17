@@ -11,15 +11,11 @@
         $(document).ready(function() {
 
         // JQuery code to be added in here.
-            var caloriesList = $("#icalories")
-            var amountList = $('#amount-list')
-            var cals = $('#totalCalories')
-            var total = $('#finalCalories')
 
-            var table = $('#ingredient_table')
+            var total = $('#finalCalories');
 
-
-            var total_val = 0
+            var table = $('#ingredient_table');
+            var total_val = $('td#totalCalories');
 
             $(table.children().children()).each(function() {
                 var $this = $(this);
@@ -27,30 +23,85 @@
                 var calspg = $this.find("td#icalories");
                 var amount = $this.find("input");
                 var totalcals = $this.find("td#totalCalories");
-
+                
                 amount.change(function(event) {
-                    var index = $(event.target).index()
                     var input_val = $(event.target).val();
-                    output_val = Number(parseFloat($(calspg).text()) * amount.val()).toFixed(2);
+                    var output_val = Number(parseFloat($(calspg).text()) * amount.val()).toFixed(2);
                     $(totalcals).text(output_val);
-
-                    total_val = 0
-
+                    var sum = Number.parseFloat(total.text());
                     for (var j = 0; j < $(totalcals).length; j++) {
-                        total_val += parseFloat($(totalcals[j]).text())
-                        console.log(j)
+                        sum += parseFloat($(totalcals[j]).text())
+                        //console.log(j)
                     }
-                    console.log($(total)[1])
-                    $(total).text(total_val.toString())
+                    //console.log($(total)[1])
+                    $(total).text(Number(sum).toFixed(2).toString())
                 });
 
-                total_val = 0
-                for (var j = 0; j < $this.length; j++) {
-                    total_val += parseFloat($(totalcals[j]).text())
-                }
-                $(total).text(Number(total_val).toFixed(2).toString())
+            var sum = Number.parseFloat(total.text());
+                    for (var j = 0; j < $(totalcals).length; j++) {
+                        sum += parseFloat($(totalcals[j]).text())
+                        //console.log(j)
+                    }
+                    //console.log($(total)[1])
+                    $(total).text(Number(sum).toFixed(2).toString())
+
                 
             })
+
+
+            // adding rows
+            var table = document.getElementById("ingredient_table");
+            var addRow = document.getElementById("rowSubmit");
+            var ingredient = $("#ingInput");
+            var calories = $("#calInput");
+            var amount = $("#amtInput");
+            var i = "";
+            var c = "";
+            var a = "";
+            ingredient.change(function(event) {
+                i = $(event.target).val();
+            });
+
+            calories.change(function(event) {
+                c = $(event.target).val();
+            });
+
+            amount.change(function(event) {
+                a = $(event.target).val();
+            });
+
+            $(addRow).click(function(event) {
+                $.ajax("../ingredient?ingredient=" + i).then(function(res) {
+                    var retCal = res.length > 0 ? JSON.parse(res).calories : c;
+                    var row = table.insertRow(-1);
+                    var ingText = row.insertCell(0);
+                    var calText = row.insertCell(1);
+                    var amtText = row.insertCell(2);
+                    var totText = row.insertCell(3);
+                    ingText.innerHTML = i;
+                    calText.innerHTML = retCal
+                    amtText.innerHTML = "<input type=\"text\" name=\"grams\" value=\"" + a + "\">";
+                    var totalVal = a ? Number.parseFloat(a) * Number.parseFloat(retCal) : retCal;
+                    totText.innerHTML = totalVal.toFixed(1).toString();
+                    totText.setAttribute('id', "totalCalories");
+
+
+                    //sum test
+                    var sum = 0
+                    $(table.children).children().each(function() {
+                        var $this = $(this);
+                        var totalcals = $this.find("td#totalCalories");
+                        for (var j = 0; j < $(totalcals).length; j++) {
+                            sum += parseFloat($(totalcals[j]).text())
+                            //console.log(j)
+                        }
+                        //console.log($(total)[1])
+                    });
+                    $(total).text(Number(sum).toFixed(2).toString());
+                }).fail(function(err) {
+                    console.log(err);
+                });
+            });
         });
     </script>
 
@@ -107,13 +158,21 @@
                             </tr>
                         {% endfor %}
                     </table>
+                    <table style="width:100%;margin-left:30px;">
+                        <tr>
+                            <td id="ingInput"><input type="text" name="ingredient" placeholder="chicken breast"></td>
+                            <td id="calInput"><input type="text" name="calories/g" placeholder="1.6"></td>
+                            <td id="amtInput"><input type="text" name="grams" placeholder="100"></td>
+                            <td id="rowSubmit"><input type="submit" value="Add Ingredient"></td>
+                        </tr>
+                    </table>
                 {% else %}
                     <p>No data.</p>
                 {% endif %}
             </div>
             <div style="text-align:center;">
                 <h2>TOTAL CALORIES:</h2>
-                <h2 id="finalCalories">300</h2>
+                <h2 id="finalCalories">0</h2>
             </div>
         </div>
     </body>
